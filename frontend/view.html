@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Stored Invoices</title>
+<style>
+table{width:90%;margin:30px auto;border-collapse:collapse;}
+th,td{border:1px solid #555;padding:12px;text-align:center;}
+th{background:#000;color:white;}
+button{padding:5px 10px;}
+</style>
+</head>
+
+<body>
+<h2 align="center">📁 Stored Invoices</h2>
+<table id="table"></table>
+
+<script>
+async function load(){
+    const res = await fetch("http://localhost:5000/invoices");
+    const data = await res.json();
+
+    let html = `<tr><th>File</th><th>Year</th><th>Month</th><th>Open</th></tr>`;
+    data.forEach(x=>{
+        html += `
+        <tr>
+            <td>${x.name}</td>
+            <td>${x.year}</td>
+            <td>${x.month}</td>
+            <td><a href="http://localhost:5000${x.url}" target="_blank"><button>OPEN</button></a></td>
+        </tr>`;
+    });
+    document.getElementById("table").innerHTML = html;
+}
+load();
+</script>
+
+</body>
+</html>
+
+

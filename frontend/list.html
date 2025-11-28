@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Stored Invoices</title>
+    <style>
+        body { font-family: Arial; padding: 40px; }
+        h2 { font-size: 28px; }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+            font-size: 18px;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 10px;
+            text-align: center;
+        }
+        th {
+            background: black;
+            color: white;
+        }
+        button {
+            padding: 6px 15px;
+            background: #0078ff;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+        button:hover { background:#0056c7; }
+        a.home {
+            display:inline-block;
+            margin-bottom:15px;
+            background:#111;
+            color:white;
+            padding:8px 12px;
+            text-decoration:none;
+        }
+    </style>
+</head>
+
+<body>
+
+    <a class="home" href="index.html">⬅ Back to Upload</a>
+    <h2>Stored Invoices</h2>
+
+    <table id="invoiceTable">
+        <tr>
+            <th>File Name</th>
+            <th>Year</th>
+            <th>Month</th>
+            <th>View</th>
+        </tr>
+    </table>
+
+<script>
+async function loadInvoices(){
+    const res = await fetch("http://localhost:5000/invoices");
+    const files = await res.json();
+
+    const table = document.getElementById("invoiceTable");
+
+    files.forEach(f => {
+        const row = document.createElement("tr");
+        row.innerHTML = `
+            <td>${f.file}</td>
+            <td>${f.year}</td>
+            <td>${f.month}</td>
+            <td><a href="http://localhost:5000/${f.path}" target="_blank">
+                <button>Open</button>
+            </a></td>
+        `;
+        table.appendChild(row);
+    });
+}
+
+loadInvoices();
+</script>
+
+</body>
+</html>
